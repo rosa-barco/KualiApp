@@ -1,0 +1,42 @@
+<div class="panel">
+    <div class="row">
+        <div class="col-10">
+            <h1>PENDIENTES</h1>
+        </div>
+        <!-- Botón para eliminar la lista -->
+        <div class="col-2 borr">
+            <button class="btn" (click)="eliminarLista()">
+                <img class="icons" src="./assets/img/borrar.png" alt="">
+            </button>    
+        </div>
+    </div>
+    <div> <!-- TABLA DE PRODUCTOS -->
+        <div class="overflow-auto tabla">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Nombre</th>
+                        <th>Quitar</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="hayRegistros(); else sin">
+                    <tr *ngFor="let lista of listas">
+                        <td><p>{{lista.sku | uppercase}}</p></td>
+                        <td><p>{{lista.nombre | uppercase}}</p></td>
+                        <td>
+                            <!-- Quitar producto de la lista -->
+                            <button class="icono" (click)="quitarLista(lista.id)">
+                                <img class="icons" src="./assets/img/quitar.png" alt="">
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #sin>
+    <h1>No se hay registros en esta tabla.</h1>
+</ng-template>

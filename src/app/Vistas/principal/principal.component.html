@@ -1,0 +1,161 @@
+<div class="row">
+    <!-- PRODUCTOS -->
+    <div class="col-lg-8 panel">
+        <div> <!-- FILTROS -->
+            <h1>Filtros</h1>
+            <form class="row">
+                <!-- Filtro por SKU -->
+                <div class="form-floating mb-3 mt-3 col-6">
+                    <input type="text" class="form-control" name="filterSku" value=""
+                    placeholder="SKU" [(ngModel)]="filterSku">
+                    <label for="filterSku">SKU</label>
+                </div>
+
+                <!-- Filtro por categoría -->
+                <div class="form-floating mb-3 mt-3 col-6">
+                    <select class="form-select" name="filterCar" id="" [(ngModel)]="filterCar">
+                        <option value=""></option>
+                        <option value="25">Arduino y accesorios</option>
+                        <option value="20">Audio</option>
+                        <option value="21">Cables</option>
+                        <option value="22">Energía</option>
+                        <option value="23">Herramientas</option>
+                        <option value="34">Hong Bao</option>
+                        <option value="24">Iluminación</option>
+                        <option value="73">Limpieza y lubricación</option>
+                        <option value="30">Sablecut</option>
+                        <option value="26">Semiconductores</option>
+                        <option value="71">Switch y relay</option>
+                        <option value="72">Ventiladores y motores</option>
+                    </select>
+                    <label for="filterCar">CATEGORÍA</label>
+                </div>
+            </form>
+        </div>
+        <div> <!-- TABLA DE PRODUCTOS -->
+            <div class="overflow-auto tabla">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Nombre</th>
+                            <th>Stock</th>
+                            <th>Precio</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="hayRegistros(); else sin">
+                        <tr *ngFor="let producto of productos | skuFilter:filterSku | catFilter:filterCar">
+                            <td class="sku"><b><p>{{producto.sku | uppercase}}</p></b></td>
+                            <td class="nombe"><p>{{producto.post_title | uppercase}}</p></td>
+                            <td class="otro"><p>{{producto.stock_quantity}}</p></td>
+                            <td class="otro"><p>{{producto.max_price | number: '1.1-2'}}</p></td>
+                            <td class="acc">
+                                <!-- Ver producto -->
+                                <button class="icono" (click)="seleccionar(producto.product_id)" (click)="activarP()">
+                                    <img class="icons" src="./assets/img/ver.png" alt="">
+                                </button >
+                                <!-- Editar producto -->
+                                <button class="icono" (click)="seleccionar(producto.product_id)" (click)="activarE()">
+                                    <img class="icons" src="./assets/img/editar.png" alt="">
+                                </button>
+                                <!-- Agregar producto de la lista -->
+                                <button class="icono" (click)="agregarLista(producto.sku, producto.post_title)">
+                                    <img class="icons" src="./assets/img/agregar.png" alt="">
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4 panel">
+        <div class="vista">
+            <!-- VER PRODUCTO -->
+            <div class="vistas" [style.display]="product">
+                <h1>Producto:</h1>
+                <br>
+                <div class="produ">
+                    <!-- Muestra la imagen del producto -->
+                    <img class="productoImagen" [src]="imagenUrl" alt="">
+                    <!-- Formulario del producto con datos bloqueados-->
+                    <form action="">
+                        <!-- Muestra el SKU-->
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="text" class="form-control" name="pSku"
+                                readonly [(ngModel)]="producto.sku" >
+                            <label for="pSku">SKU</label>
+                        </div>
+                        <!-- Muestra el Nombre-->
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="text" class="form-control" name="pNombre"
+                                readonly [(ngModel)]="producto.post_title">
+                            <label for="pNombre">Nombre</label>
+                        </div>
+                        <!-- Muestra el Inventario-->
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="number" class="form-control" name="pStock"
+                                readonly [(ngModel)]="producto.stock_quantity">
+                            <label for="pStock">Stock</label>
+                        </div>
+                        <!-- Muestra el Precio-->
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="number" class="form-control" name="pPrecio"
+                                readonly [(ngModel)]="producto.max_price">
+                            <label for="pPrecio">Precio</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- EDITAR PRODUCTO -->
+            <div class="vistas" [style.display]="edit">
+                <h1>Editar: </h1>
+                <h1 [(ngModel)]="producto.sku" ></h1>
+                <div class="produ">
+                    <!-- Muestra la imagen del producto -->
+                    <img class="productoImagen" [src]="imagenUrl" alt="">
+                    <!-- Formulario del producto con datos bloqueados-->
+                    <form action="">
+                        <!-- Muestra el SKU-->
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="text" class="form-control" name="pSku"
+                                readonly value="" placeholder="SKU" [(ngModel)]="producto.sku" >
+                            <label for="pSku">SKU</label>
+                        </div>
+                        <!-- Muestra el Nombre-->
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="text" class="form-control" name="pNombre"
+                                value="" placeholder="Nombre" [(ngModel)]="producto.post_title">
+                            <label for="pNombre">Nombre</label>
+                        </div>
+                        <!-- Muestra el Inventario-->
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="number" class="form-control" name="pStock"
+                                value="" placeholder="Stock" [(ngModel)]="producto.stock_quantity">
+                            <label for="pStock">Stock</label>
+                        </div>
+                        <!-- Muestra el Precio-->
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="number" class="form-control" name="pPrecio"
+                                value="" placeholder="Precio" [(ngModel)]="producto.max_price">
+                            <label for="pPrecio">Precio</label>
+                        </div>
+                        <div>
+                            <!-- Botón para guardar o cancelar la edición-->
+                            <input type="button" class="btn" value="Guardar" (click)="modificar()">
+                            <input type="button" class="btn" value="Cancelar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<ng-template #sin>
+    <h1>No se han encontrado con los registros.</h1>
+</ng-template>

@@ -1,0 +1,29 @@
+.ico{
+    width: 50px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.ico:hover{
+    background-color: #1AB2F2;
+}
+
+.imagenes{
+    margin-right: 25px;
+}
+
+nav{
+    background-color: #008DC9;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.logo{
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.logo:hover{
+    background-color: #1AB2F2;
+}

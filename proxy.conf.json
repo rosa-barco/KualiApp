@@ -1,0 +1,7 @@
+{
+  "/KualiPHP/*": {
+    "target": "https://localhost/",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
